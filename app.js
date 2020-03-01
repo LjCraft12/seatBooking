@@ -37,7 +37,7 @@ const setMovieData = (movieIndex, moviePrice) => {
     localStorage.setItem('selectedMoviePrice', moviePrice);
 };
 
-const updateSelectedCount = () => {
+const updateSelectedCountAndTotal = () => {
     // Grab all seats that the user selected
     const selectedSeats = document.querySelectorAll('.row .seat.selected');
 
@@ -62,7 +62,7 @@ const updateSelectedCount = () => {
 selectedMovie.addEventListener('change', e => {
     ticketPrice = +e.target.value;
     setMovieData(e.target.selectedIndex, e.target.value);
-    updateSelectedCount();
+    updateSelectedCountAndTotal();
 });
 
 // Add even listener to the container
@@ -72,9 +72,9 @@ container.addEventListener('click', e => {
         e.target.classList.toggle('selected');
 
         // Update the selected number of seats and total ticket prices
-        updateSelectedCount()
+        updateSelectedCountAndTotal()
     }
 });
 
 // Initialize count and total
-updateSelectedCount();
+updateSelectedCountAndTotal();
