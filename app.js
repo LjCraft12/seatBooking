@@ -4,12 +4,26 @@ const container = document.querySelector('.container'),
     total = document.getElementById('total'),
     selectedMovie = document.getElementById('movie');
 
-    // Add plus sign to selected movie value to make it a number
-    let ticketPrice = +selectedMovie.value;
+// Add plus sign to selected movie value to make it a number
+let ticketPrice = +selectedMovie.value;
 
-const updateSelectedCount = () => {
+// Save selected movie index and price
+const setMovieData = (movieIndex, moviePrice) => {
+    localStorage.setItem('selectedMovieIndex', movieIndex);
+    localStorage.setItem('selectedMoviePrice', moviePrice);
+};
+
+const
+updateSelectedCount = () => {
     // Grab all seats that the user selected
     const selectedSeats = document.querySelectorAll('.row .seat.selected');
+
+    // Create a new array of the selected seats
+    // Map array and return new array of indexes
+    const seatsIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
+
+    // Add selected seats to localStorage
+    localStorage.setItem('selectedSeats', JSON.stringify(seatsIndex));
 
     // Convert the node list from the querySelectorAll to a number of its length
     const selectedSeatsCount = selectedSeats.length;
@@ -23,8 +37,9 @@ const updateSelectedCount = () => {
 
 // Check for selected movie
 selectedMovie.addEventListener('change', e => {
-   ticketPrice = +e.target.value;
-   updateSelectedCount();
+    ticketPrice = +e.target.value;
+    setMovieData(e.target.selectedIndex, e.target.value);
+    updateSelectedCount();
 });
 
 container.addEventListener('click', e => {
