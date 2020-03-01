@@ -7,14 +7,37 @@ const container = document.querySelector('.container'),
 // Add plus sign to selected movie value to make it a number
 let ticketPrice = +selectedMovie.value;
 
+populateUI();
+
+
+// Get data from localStorage and populate the DOM
+function populateUI() {
+    // Retrieve selected seats from localStorage
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+    // Check if selectedSeats is not equal to null and the length of selecteSeats is greater than 0
+    if (selectedSeats !== null && selectedSeats.length > 0) {
+        // Loop thru selectedSeats from localStorage and check that their index is greater than -1 (-1 meaning its not there)
+        seats.forEach((seat, index) => {
+            if (selectedSeats.indexOf(index) > -1) {
+                // Add the selected class to the seats from local storage
+                seat.classList.add('selected')
+            }
+        })
+    }
+    const selectedMovieIndex = localStorage.getItem('selectedMovieIndex');
+    if(selectedMovieIndex !== null) {
+        // Set the selected movie to the selectedMovieIndex from localStorage
+        selectedMovie.selectedIndex = selectedMovieIndex;
+    }
+}
+
 // Save selected movie index and price
 const setMovieData = (movieIndex, moviePrice) => {
     localStorage.setItem('selectedMovieIndex', movieIndex);
     localStorage.setItem('selectedMoviePrice', moviePrice);
 };
 
-const
-updateSelectedCount = () => {
+const updateSelectedCount = () => {
     // Grab all seats that the user selected
     const selectedSeats = document.querySelectorAll('.row .seat.selected');
 
@@ -42,6 +65,7 @@ selectedMovie.addEventListener('change', e => {
     updateSelectedCount();
 });
 
+// Add even listener to the container
 container.addEventListener('click', e => {
     // Check if the clicked item in the DOM has a class of seat and it does not contain a class of occupied
     if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
@@ -51,3 +75,6 @@ container.addEventListener('click', e => {
         updateSelectedCount()
     }
 });
+
+// Initialize count and total
+updateSelectedCount();
